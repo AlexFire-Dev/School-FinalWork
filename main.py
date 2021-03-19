@@ -1,6 +1,7 @@
 from tkinter import *
 
-from Apps.classes.button import Button
+from Apps.funcs.handlers import *
+from Apps.funcs.static import StartWindow
 
 
 root = Tk()
@@ -11,20 +12,20 @@ root.geometry('1920x1080')
 canvas = Canvas(root, width=3840, height=2160, bg='white')
 canvas.pack()
 
+StartWindow(canvas)
 
-# Обработчик нажатий мыши
+
+# Передаем параметры в обработчик мыши
 def MouseHandler(event):
-    print(event.x, event.y)
-
-    Button(canvas, pos_x=event.x, pos_y=event.y, width=100, height=100, anchor='nw')
+    Mouse(event, canvas)
 
 
-# Обработчик нажатий на клавиши
+# Передаем параметры в обработчик клавиатуры
 def KeyboardHandler(event):
-    pass
+    Mouse(event, canvas)
 
 
-root.bind('<Button-1>', MouseHandler)
-root.bind('<KeyRelease>', KeyboardHandler)
+root.bind('<Button-1>', MouseHandler, add=canvas)
+root.bind('<KeyRelease>', KeyboardHandler, add=canvas)
 
 root.mainloop()

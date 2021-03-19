@@ -1,6 +1,6 @@
 class Button:
 
-    def __init__(self, canvas, pos_x, pos_y, width, height, text=None, font=None, anchor='c'):
+    def __init__(self, canvas, pos_x, pos_y, width, height, function=None, text=None, font=None, anchor='c'):
 
         if anchor == 'w':
             self.x = pos_x + width / 2
@@ -29,6 +29,9 @@ class Button:
         else:
             self.x = pos_x
             self.y = pos_y
+
+        if function:
+            function(canvas)
 
         self.text = text
         self.font = font
