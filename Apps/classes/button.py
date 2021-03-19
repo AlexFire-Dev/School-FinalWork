@@ -1,9 +1,6 @@
-from tkinter import *
-
-
 class Button:
 
-    def __init__(self, canvas, pos_x, pos_y, width, height, text=None, font=None, anchor=None):
+    def __init__(self, canvas, pos_x, pos_y, width, height, text=None, font=None, anchor='c'):
 
         if anchor == 'w':
             self.x = pos_x + width / 2
@@ -29,10 +26,12 @@ class Button:
         elif anchor == 'ne':
             self.x = pos_x - width / 2
             self.y = pos_y + height / 2
+        else:
+            self.x = pos_x
+            self.y = pos_y
 
-        if text:
-            self.text = text
-        if font:
-            self.font = font
+        self.text = text
+        self.font = font
 
         canvas.create_rectangle(self.x-width/2, self.y-height/2, self.x+width/2, self.y+height/2)
+        canvas.create_text(self.x, self.y, text=self.text, font=self.font)
