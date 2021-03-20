@@ -17,15 +17,25 @@ StartWindow(canvas)
 
 # Передаем параметры в обработчик мыши
 def MouseHandler(event):
-    Mouse(event, canvas)
+    context = {
+        'event': event,
+        'canvas': canvas,
+        'root': root,
+    }
+    Mouse(context)
 
 
 # Передаем параметры в обработчик клавиатуры
 def KeyboardHandler(event):
-    Mouse(event, canvas)
+    context = {
+        'event': event,
+        'canvas': canvas,
+        'root': root,
+    }
+    Keyboard(context)
 
 
-root.bind('<Button-1>', MouseHandler, add=canvas)
-root.bind('<KeyRelease>', KeyboardHandler, add=canvas)
+root.bind('<Button-1>', MouseHandler)
+root.bind('<KeyRelease>', KeyboardHandler)
 
 root.mainloop()
