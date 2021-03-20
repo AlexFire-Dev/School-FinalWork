@@ -1,5 +1,7 @@
 from Apps.contrib.control import SetPage
 from Apps.contrib.classes import Button
+from Apps.contrib.fileworker import *
+from tkinter.font import Font
 
 
 def StartWindow(canvas):
@@ -76,3 +78,9 @@ def Saves(canvas):
     SetPage(9)
 
     canvas.create_text(960, 50, text='Сохранения', font='JetBrainsMono 40')
+    Button(canvas, 960, 150, 500, 80, text='Создать сохранение', font='JetBrainsMono 30')
+
+    x = 275
+    for file in GetSaves():
+        Button(canvas, 960, x, 500, 80, text=file[:-5], font='JetBrainsMono 30')
+        x += 100

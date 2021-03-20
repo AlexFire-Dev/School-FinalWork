@@ -35,7 +35,18 @@ def KeyboardHandler(event):
     Keyboard(context)
 
 
+# Передаем параметры в обработчик колеса мыши
+def MouseWheelHandler(event):
+    context = {
+        'event': event,
+        'canvas': canvas,
+        'root': root,
+    }
+    Wheel(context)
+
+
 root.bind('<Button-1>', MouseHandler)
 root.bind('<KeyRelease>', KeyboardHandler)
+root.bind("<MouseWheel>", MouseWheelHandler)
 
 root.mainloop()

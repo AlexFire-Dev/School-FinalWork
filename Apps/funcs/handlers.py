@@ -1,5 +1,6 @@
 from Apps.contrib.control import *
 from Apps.contrib.classes import ButtonClick
+from Apps.contrib.fileworker import *
 from Apps.funcs.static import *
 
 
@@ -24,9 +25,27 @@ def Mouse(context):
     if ButtonClick(context['event'], 1900, 20, 150, 50, page=1, anchor='ne').check():
         Saves(context['canvas'])
 
+    # Сохранения
+    SaveButtons = GetSaves()
+    x = 275
+    for SaveButton in SaveButtons:
+        if ButtonClick(context['event'], 960, x, 500, 80, page=9).check():
+            LoadSave(SaveButton)
+        x += 100
+
 
 # Обработчик нажатий на клавиши
 def Keyboard(context):
 
     if context['event'].keysym == 'Escape':
         Menu(context['canvas'])
+
+
+# Обработчик колеса мыши
+def Wheel(context):
+
+    if GetPage() == 9:
+        if context['event'].delta == -120:
+            pass
+        if context['event'].delta == 120:
+            pass
