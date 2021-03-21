@@ -1,6 +1,5 @@
-from Apps.contrib.control import *
 from Apps.contrib.classes import ButtonClick
-from Apps.contrib.fileworker import *
+from Apps.funcs.inputs import *
 from Apps.funcs.static import *
 
 
@@ -26,24 +25,56 @@ def Mouse(context):
         Saves(context['canvas'])
 
     # Сохранения
+    if ButtonClick(context['event'], 960, 150, 500, 80, page=9).check():
+        CreateSave(context['canvas'])
     SaveButtons = GetSaves()
     x = 275
     for SaveButton in SaveButtons:
         if ButtonClick(context['event'], 960, x, 500, 80, page=9).check():
             LoadSave(SaveButton)
+            Menu(context['canvas'])
         x += 100
+    x = 275
+    for SaveDeleteButton in SaveButtons:
+        if ButtonClick(context['event'], 1250, x, 80, 80, page=9).check():
+            DeleteSave(SaveDeleteButton)
+            Saves(context['canvas'])
+        x += 100
+
+    # Создать новое сохранение
+    if ButtonClick(context['event'], 960, 625, 300, 80, page=10).check():
+        CheckSave(context['canvas'])
+
+    # Подтверждение закрытия
+    if ButtonClick(context['event'], 810, 640, 200, 75, page=8).check():
+        context['root'].destroy()
+    if ButtonClick(context['event'], 1110, 640, 200, 75, page=8).check():
+        Menu(context['canvas'])
 
 
 # Обработчик нажатий на клавиши
 def Keyboard(context):
 
+    # Выход в меню
     if context['event'].keysym == 'Escape':
         Menu(context['canvas'])
+
+    # Создать название сохранения
+    if not (context['event'].char in './') and GetPage() == 10:
+        if context['event'].keysym != 'Return':
+            NewSaveInput(context['event'])
+            CreateSave(context['canvas'])
+    if context['event'].keysym == 'BackSpace' and GetPage() == 10:
+        NewSaveInputDelete()
+        CreateSave(context['canvas'])
+    if context['event'].keysym == 'Return' and GetPage() == 10:
+        CheckSave(context['canvas'])
 
 
 # Обработчик колеса мыши
 def Wheel(context):
 
+    # Прокрутка сохранений
     if GetPage() == 9:
         if context['event'].delta == -120:
             pass

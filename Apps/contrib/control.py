@@ -9,6 +9,7 @@ if __name__ == '__main__':
     mem = {
         'table': [],
         'error': [],
+        'newsavename': '',
     }
 
 
@@ -23,6 +24,19 @@ def GetPage():
 
 
 # Работа с памятью
+def SetDefaultMemory():
+    table = [''] * 5
+    for i in range(0, len(table)):
+        table[i] = [''] * 14
+    Memory = {
+        'table': table,
+        'error': [],
+        'newsavename': '',
+    }
+
+    SetMemory(Memory)
+
+
 def GetMemory():
     return mem
 
@@ -33,7 +47,9 @@ def SetMemory(memory):
 
 
 def GetMemoryField(field):
-    return mem[f'{field}']
+    global mem
+    MemoryField = mem[f'{field}']
+    return MemoryField
 
 
 def SetMemoryField(field, value):

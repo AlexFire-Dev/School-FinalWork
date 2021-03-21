@@ -13,6 +13,7 @@ canvas = Canvas(root, width=3840, height=2160, bg='white')
 canvas.pack()
 
 StartWindow(canvas)
+SetDefaultMemory()
 
 
 # Передаем параметры в обработчик мыши
