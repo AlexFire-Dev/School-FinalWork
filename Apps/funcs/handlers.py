@@ -5,6 +5,7 @@ from Apps.funcs.static import *
 
 # Обработчик нажатий мыши
 def Mouse(context):
+    print(context['event'].x, context['event'].y)
 
     # Меню
     MenuButtons = [
@@ -25,7 +26,7 @@ def Mouse(context):
         Saves(context['canvas'])
 
     # Сохранения
-    if ButtonClick(context['event'], 960, 150, 500, 80, page=9).check():
+    if ButtonClick(context['event'], 960, 150, 1200, 80, page=9).check():
         CreateSave(context['canvas'])
     SaveButtons = GetSaves()
     x = 275
@@ -33,12 +34,12 @@ def Mouse(context):
         if ButtonClick(context['event'], 960, x, 500, 80, page=9).check():
             LoadSave(SaveButton)
             Menu(context['canvas'])
-        x += 100
-    x = 275
-    for SaveDeleteButton in SaveButtons:
-        if ButtonClick(context['event'], 1250, x, 80, 80, page=9).check():
-            DeleteSave(SaveDeleteButton)
+        if ButtonClick(context['event'], 1210, x, 350, 80, anchor='w', page=9).check():
+            DeleteSave(SaveButton)
             Saves(context['canvas'])
+        if ButtonClick(context['event'], 710, x, 350, 80, anchor='e', page=9).check():
+            CreateNewSave(SaveButton[:-4])
+            Menu(context['canvas'])
         x += 100
 
     # Создать новое сохранение

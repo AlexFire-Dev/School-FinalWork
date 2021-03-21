@@ -59,6 +59,25 @@ def Table(canvas):
 
     canvas.create_text(960, 50, text='Таблица', font='JetBrainsMono 40')
 
+    # Отрисовка таблицы
+    Button(canvas, 960, 600, 1500, 700)
+    for y in range(600-150, 601+250, 200):
+        Button(canvas, 960, y, 1500, 100, anchor='n')
+    Button(canvas, 960+350, 600, 1000, 700, anchor='e')
+    for x in range(960-650, 960+750, 100):
+        Button(canvas, x, 600-250, 100, 600, anchor='nw')
+    # Цифры градусов таблицы
+    y = 500
+    for i in range(15, 76, 15):
+        Button(canvas, 260, y, 100, 100, text=i, font='JetBrainsMono 25')
+        y += 100
+    # Цифры S таблицы
+    for i in range(960-600, 960+301, 100):
+        Button(canvas, i, 400, 100, 100, text='S', font='JetBrainsMono 25')
+    # Надписи над таблицей
+    Button(canvas, 960-150, 300, 1000, 100, text='Дальность полета (см)', font='JetBrainsMono 25')
+    Button(canvas, 960+550, 300, 400, 100, text='(Все значения заносятся в см)', font='JetBrainsMono 25')
+
 
 # График
 def Graph(canvas):
@@ -94,15 +113,13 @@ def Saves(canvas):
     SetMemoryField('newsavename', '')
 
     canvas.create_text(960, 50, text='Сохранения', font='JetBrainsMono 40')
-    Button(canvas, 960, 150, 500, 80, text='Создать новое', font='JetBrainsMono 30')
+    Button(canvas, 960, 150, 1200, 80, text='Создать новое', font='JetBrainsMono 30')
 
     x = 275
-    image1 = Image.open(os.path.abspath('Assets/images/delete.png'))
-    image = ImageTk.PhotoImage(image1)
     for file in GetSaves():
+        Button(canvas, 710, x, 350, 80, text='перезаписать', font='JetBrainsMono 30', anchor='e')
         Button(canvas, 960, x, 500, 80, text=file[:-5], font='JetBrainsMono 30')
-        Button(canvas, 1250, x, 80, 80)
-        canvas.create_image(1500, x, image=image)
+        Button(canvas, 1210, x, 350, 80, text='удалить', font='JetBrainsMono 30', anchor='w')
         x += 100
 
 
