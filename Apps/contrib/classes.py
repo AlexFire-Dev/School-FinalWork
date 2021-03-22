@@ -1,4 +1,5 @@
-from Apps.contrib.control import GetPage
+from Apps.contrib.control import *
+from tkinter.font import Font
 
 
 class Button:
@@ -90,3 +91,54 @@ class ButtonClick:
                 return True
         else:
             return False
+
+
+class Tablica:
+
+    def __init__(self, width, height):
+        self.width = width
+        self.height = height
+
+        self.x = 0
+        self.y = 0
+
+    def addsym(self, symbol):
+        SetMemoryField('table', value=GetMemoryField('table')[self.y][self.x]+symbol)
+
+    def createcursor(self, canvas):
+        try:
+            canvas.delete(self.cursor)
+        except:
+            pass
+        text = GetMemoryField('table')[self.y][self.x]
+        size = Font(font='JetBrainsMono 25').measure(text=text)
+        self.cursor = canvas.create_line(960-740+100*self.x+size, 650-100+100*self.y-22, 960-740+100*self.x+size, 650-100+100*self.y+22)
+
+    def keyboard(self, keysym):
+
+        if keysym == "Right":
+            if self.x < self.width-1:
+                self.x += 1
+            else:
+                self.x = 0
+
+        elif keysym == "Left":
+            if self.x > 0:
+                self.x -= 1
+            else:
+                self.x = self.width-1
+
+        elif keysym == "Down":
+            if self.y < self.height-1:
+                self.y += 1
+            else:
+                self.y = 0
+
+        elif keysym == "Up":
+            if self.y > 0:
+                self.y -= 1
+            else:
+                self.y = self.height-1
+
+        elif keysym == "BackSpace":
+            SetMemoryField('table', value=GetMemoryField('table')[self.y][self.x][:-1])

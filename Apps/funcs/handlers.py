@@ -1,4 +1,4 @@
-from Apps.contrib.classes import ButtonClick
+from Apps.contrib.classes import ButtonClick, Tablica
 from Apps.funcs.inputs import *
 from Apps.funcs.static import *
 
@@ -20,7 +20,11 @@ def Mouse(context):
     x = 325
     for MenuButton in MenuButtons:
         if ButtonClick(context['event'], 960, x, 400, 80, page=1).check():
-            MenuButton[0](MenuButton[1])
+            if MenuButton[0] == Table:
+                tablica = Tablica(width=10, height=5)
+                MenuButton[0](MenuButton[1], tablica)
+            else:
+                MenuButton[0](MenuButton[1])
         x += 100
     if ButtonClick(context['event'], 1900, 20, 150, 50, page=1, anchor='ne').check():
         Saves(context['canvas'])
@@ -38,7 +42,7 @@ def Mouse(context):
             DeleteSave(SaveButton)
             Saves(context['canvas'])
         if ButtonClick(context['event'], 710, x, 350, 80, anchor='e', page=9).check():
-            CreateNewSave(SaveButton[:-4])
+            ReCreate(SaveButton)
             Menu(context['canvas'])
         x += 100
 

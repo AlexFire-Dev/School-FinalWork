@@ -53,30 +53,50 @@ def Errors(canvas):
 
 
 # Таблица
-def Table(canvas):
+def Table(canvas, tablica):
     canvas.delete('all')
     SetPage(5)
+    TableMemory = GetMemoryField('table')
 
     canvas.create_text(960, 50, text='Таблица', font='JetBrainsMono 40')
 
+    # Отрисовка значенй таблицы
+    for y in range(5):
+        for x in range(5):
+            canvas.create_text(960-740+100*x, 650-100+100*y, text=TableMemory[y][x], font='JetBrainsMono 25', anchor='w')
+
+    # Курсор
+    tablica.createcursor(canvas)
+
     # Отрисовка таблицы
-    Button(canvas, 960, 600, 1500, 700)
-    for y in range(600-150, 601+250, 200):
-        Button(canvas, 960, y, 1500, 100, anchor='n')
-    Button(canvas, 960+350, 600, 1000, 700, anchor='e')
-    for x in range(960-650, 960+750, 100):
-        Button(canvas, x, 600-250, 100, 600, anchor='nw')
-    # Цифры градусов таблицы
-    y = 500
-    for i in range(15, 76, 15):
-        Button(canvas, 260, y, 100, 100, text=i, font='JetBrainsMono 25')
-        y += 100
-    # Цифры S таблицы
-    for i in range(960-600, 960+301, 100):
-        Button(canvas, i, 400, 100, 100, text='S', font='JetBrainsMono 25')
+    Button(canvas, 960, 650, 1700, 700)
     # Надписи над таблицей
-    Button(canvas, 960-150, 300, 1000, 100, text='Дальность полета (см)', font='JetBrainsMono 25')
-    Button(canvas, 960+550, 300, 400, 100, text='(Все значения заносятся в см)', font='JetBrainsMono 25')
+    Button(canvas, 960+250, 350, 1000, 100, text='Дальность полета (см)', font='JetBrainsMono 25', anchor='e')
+    Button(canvas, 960+850, 350, 600, 100, text='(Все значения заносятся в см)', font='JetBrainsMono 25', anchor='e')
+    for s in range(1, 11):
+        Button(canvas, 960 - (850-s*100), 400, 100, 100, text='S', font='JetBrainsMono 25', anchor='nw')
+        canvas.create_text(960-(785-s*100), 465, text=s, font='JetBrainsMono 12')
+    Button(canvas, 960 + 850, 400, 150, 100, text='S   ', font='JetBrainsMono 25', anchor='ne')
+    canvas.create_text(1750, 462, text='теор', font='JetBrainsMono 12')
+    Button(canvas, 960 + 700, 400, 150, 100, text='S  ±ΔS  ', font='JetBrainsMono 25', anchor='ne')
+    canvas.create_text(1554, 462, text='ср', font='JetBrainsMono 12')
+    canvas.create_text(1637, 462, text='ср', font='JetBrainsMono 12')
+    Button(canvas, 960 + 550, 400, 150, 100, text='ΔS  ', font='JetBrainsMono 25', anchor='ne')
+    canvas.create_text(1454, 462, text='ср', font='JetBrainsMono 12')
+    Button(canvas, 960 + 400, 400, 150, 100, text='S  ', font='JetBrainsMono 25', anchor='ne')
+    canvas.create_text(1293, 462, text='ср', font='JetBrainsMono 12')
+    for y in range(600, 1001, 100):
+        canvas.create_line(960-750, y, 960+850, y)
+    for x in range(960-650, 960+251, 100):
+        canvas.create_line(x, 500, x, 1000)
+    for x in range(960+400, 960+850, 150):
+        canvas.create_line(x, 500, x, 1000)
+    # Надписи сбоку таблицы
+    Button(canvas, 960-850, 300, 100, 200, text='α', font='JetBrainsMono 25', anchor='nw')
+    y = 500
+    for a in range(15, 76, 15):
+        Button(canvas, 960 - 850, y, 100, 100, text=f'{a}⁰', font='JetBrainsMono 25', anchor='nw')
+        y += 100
 
 
 # График

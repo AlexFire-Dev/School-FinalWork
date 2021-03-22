@@ -29,9 +29,9 @@ def SetDefaultMemory():
     for i in range(0, len(table)):
         table[i] = [''] * 14
     Memory = {
-        'table': table,
-        'error': [],
         'newsavename': '',
+        'error': [],
+        'table': table,
     }
 
     SetMemory(Memory)

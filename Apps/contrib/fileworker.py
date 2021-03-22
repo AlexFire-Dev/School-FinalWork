@@ -35,3 +35,10 @@ def CreateNewSave(filename):
 # Удаляет сохранение
 def DeleteSave(file):
     os.remove(f'Saves/{file}')
+
+
+# Пересоздает сохранение
+def ReCreate(file):
+    DeleteSave(file)
+    with open(f'Saves/{file}', 'w') as write_file:
+        json.dump(GetMemory(), write_file, indent=4)
