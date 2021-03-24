@@ -102,8 +102,13 @@ class Tablica:
         self.x = 0
         self.y = 0
 
-    def addsym(self, symbol):
-        SetMemoryField('table', value=GetMemoryField('table')[self.y][self.x]+symbol)
+    def addsym(self, symbol, canvas):
+        value = GetMemoryField('table')
+        value[self.y][self.x] += symbol
+        canvas.create_rectangle(960-750+100*self.x, 500+100*self.y, 960-650+100*self.x, 600+100*self.y, fill='white')
+        SetMemoryField('table', value=value)
+        canvas.create_text(960-745+100*self.x, 550+100*self.y, text=GetMemoryField('table')[self.y][self.x], font='JetBrainsMono 25', anchor='w')
+        self.Middle(canvas)
 
     def createcursor(self, canvas):
         try:
@@ -112,9 +117,9 @@ class Tablica:
             pass
         text = GetMemoryField('table')[self.y][self.x]
         size = Font(font='JetBrainsMono 25').measure(text=text)
-        self.cursor = canvas.create_line(960-740+100*self.x+size, 650-100+100*self.y-22, 960-740+100*self.x+size, 650-100+100*self.y+22)
+        self.cursor = canvas.create_line(960-743+100*self.x+size, 650-100+100*self.y-22, 960-743+100*self.x+size, 650-100+100*self.y+22)
 
-    def keyboard(self, keysym):
+    def keyboard(self, keysym, canvas=None):
 
         if keysym == "Right":
             if self.x < self.width-1:
@@ -141,4 +146,27 @@ class Tablica:
                 self.y = self.height-1
 
         elif keysym == "BackSpace":
-            SetMemoryField('table', value=GetMemoryField('table')[self.y][self.x][:-1])
+            value = GetMemoryField('table')
+            value[self.y][self.x] = value[self.y][self.x][:-1]
+            SetMemoryField('table', value=value)
+            canvas.create_rectangle(960-750+100*self.x, 500+100*self.y, 960-650+100*self.x, 600+100*self.y, fill='white')
+            canvas.create_text(960-745+100*self.x, 550+100*self.y, text=GetMemoryField('table')[self.y][self.x], font='JetBrainsMono 25', anchor='w')
+            self.Middle(canvas)
+
+    def Middle(self, canvas):
+        Memory = GetMemoryField('table')
+        for y in range(5):
+            Counter = 0
+            Number = 0
+            for x in range(10):
+                if not (Memory[y][x] == '' or Memory[y][x] == '.'):
+                    Counter += float(Memory[y][x])
+                    Number += 1
+            canvas.create_rectangle(960 + 250, 500 + 100 * y, 960 + 400, 600 + 100 * y, fill='white')
+            if Number > 0:
+                Counter = Counter / Number
+                Memory[y][10] = round(Counter, 1)
+            else:
+                Memory[y][10] = ''
+            canvas.create_text(960+260, 550+100*y, text=Memory[y][10], font='JetBrainsMono 25', anchor='w')
+        SetMemoryField('table', Memory)

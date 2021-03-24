@@ -1,11 +1,13 @@
 from Apps.contrib.classes import ButtonClick, Tablica
+from Apps.contrib.contrib import log
 from Apps.funcs.inputs import *
 from Apps.funcs.static import *
 
 
 # Обработчик нажатий мыши
 def Mouse(context):
-    print(context['event'].x, context['event'].y)
+    global tablica
+    log(context['event'].x, context['event'].y, way=['coords'])
 
     # Меню
     MenuButtons = [
@@ -59,21 +61,32 @@ def Mouse(context):
 
 # Обработчик нажатий на клавиши
 def Keyboard(context):
+    global tablica
 
     # Выход в меню
     if context['event'].keysym == 'Escape':
         Menu(context['canvas'])
 
     # Создать название сохранения
-    if not (context['event'].char in './') and GetPage() == 10:
-        if context['event'].keysym != 'Return':
-            NewSaveInput(context['event'])
+    if GetPage() == 10:
+        if not (context['event'].char in './'):
+            if context['event'].keysym != 'Return':
+                NewSaveInput(context['event'])
+                CreateSave(context['canvas'])
+        if context['event'].keysym == 'BackSpace':
+            NewSaveInputDelete()
             CreateSave(context['canvas'])
-    if context['event'].keysym == 'BackSpace' and GetPage() == 10:
-        NewSaveInputDelete()
-        CreateSave(context['canvas'])
-    if context['event'].keysym == 'Return' and GetPage() == 10:
-        CheckSave(context['canvas'])
+        if context['event'].keysym == 'Return':
+            CheckSave(context['canvas'])
+
+    # Заполнение таблицы
+    if GetPage() == 5:
+        if context['event'].keysym == 'Right' or context['event'].keysym == 'Left' or context['event'].keysym == 'Up' or context['event'].keysym == 'Down' or context['event'].keysym == 'BackSpace':
+            tablica.keyboard(context['event'].keysym, context['canvas'])
+            tablica.createcursor(context['canvas'])
+        if ((context['event'].keysym in '0123456789') or context['event'].char == '.' and not ('.' in GetMemoryField('table')[tablica.y][tablica.x])) and len(GetMemoryField('table')[tablica.y][tablica.x]) < 5:
+            tablica.addsym(context['event'].char, context['canvas'])
+            tablica.createcursor(context['canvas'])
 
 
 # Обработчик колеса мыши

@@ -2,6 +2,7 @@ import os
 import json
 
 from Apps.contrib.control import *
+from Apps.contrib.contrib import *
 
 
 # Получает список всех сохранений
@@ -17,7 +18,7 @@ def GetSaves():
 def LoadSave(file):
     with open(f'Saves/{file}', 'r') as read_file:
         SetMemory(json.load(read_file))
-    print(GetMemory())
+    PrintDictionary(GetMemory(), indent=4, name='LoadSave')
 
 
 # Создает сохранение
@@ -26,6 +27,8 @@ def CreateNewSave(filename):
         return 1
     elif len(GetMemoryField('newsavename')) == 0:
         return 2
+    elif len(GetSaves()) >= 8:
+        return 3
     else:
         with open(f'Saves/{filename}.json', 'w') as write_file:
             json.dump(GetMemory(), write_file, indent=4)

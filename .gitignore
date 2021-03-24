@@ -2,4 +2,5 @@
 .venv/
 
 Saves/*.json
+logfile.txt
 __pycache__/

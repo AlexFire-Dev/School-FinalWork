@@ -62,8 +62,11 @@ def Table(canvas, tablica):
 
     # Отрисовка значенй таблицы
     for y in range(5):
-        for x in range(5):
-            canvas.create_text(960-740+100*x, 650-100+100*y, text=TableMemory[y][x], font='JetBrainsMono 25', anchor='w')
+        for x in range(10):
+            canvas.create_text(960-745+100*x, 550+100*y, text=TableMemory[y][x], font='JetBrainsMono 25', anchor='w')
+    for y in range(5):
+        for x in range(4):
+            canvas.create_text(960+260+150*x, 550+100*y, text=TableMemory[y][x+10], font='JetBrainsMono 25', anchor='w')
 
     # Курсор
     tablica.createcursor(canvas)

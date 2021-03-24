@@ -27,7 +27,7 @@ def GetPage():
 def SetDefaultMemory():
     table = [''] * 5
     for i in range(0, len(table)):
-        table[i] = [''] * 14
+        table[i] = [''] * 15
     Memory = {
         'newsavename': '',
         'error': [],

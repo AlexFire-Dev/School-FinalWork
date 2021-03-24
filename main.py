@@ -2,6 +2,7 @@ from tkinter import *
 
 from Apps.funcs.handlers import *
 from Apps.funcs.static import StartWindow
+from Apps.contrib.contrib import *
 
 
 root = Tk()
@@ -14,6 +15,7 @@ canvas.pack()
 
 StartWindow(canvas)
 SetDefaultMemory()
+StartSession()
 
 
 # Передаем параметры в обработчик мыши

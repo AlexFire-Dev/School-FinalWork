@@ -26,4 +26,7 @@ def CheckSave(canvas):
         canvas.create_text(960, 465, text='Такой файл уже существует!', font='JetBrainsMono 15', fill='red')
     elif CreateNewSave(GetMemoryField('newsavename')) == 2:
         canvas.create_rectangle(960 - 250, 465 - 20, 960 + 250, 465 + 20, outline='white', fill='white')
-        canvas.create_text(960, 465, text='Название не может быть пустым!', font='JetBrainsMono 15',fill='red')
+        canvas.create_text(960, 465, text='Название не может быть пустым!', font='JetBrainsMono 15', fill='red')
+    elif CreateNewSave(GetMemoryField('newsavename')) == 3:
+        canvas.create_rectangle(960 - 250, 465 - 20, 960 + 250, 465 + 20, outline='white', fill='white')
+        canvas.create_text(960, 465, text='Все слоты памяти заняты!', font='JetBrainsMono 15', fill='red')
