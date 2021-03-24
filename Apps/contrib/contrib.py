@@ -27,7 +27,23 @@ def log(*args, **kwargs):
     file.close()
 
 
-def PrintDictionary(dictionary, indent=0, name=''):
+def exception(*args, **kwargs):
+    file = open('logfile.txt', 'a')
+    print('    exception', end=': ')
+    print('    exception', end=': ', file=file)
+    if kwargs.get('way', None):
+        for way in kwargs.get('way'):
+            print(way, end=': ')
+            print(way, end=': ', file=file)
+    for arg in args:
+        print(arg, end=' ')
+        print(arg, end=' ', file=file)
+    print()
+    print(file=file)
+    file.close()
+
+
+def PrintDictionary(dictionary, indent=4, name=''):
     file = open('logfile.txt', 'a')
     print('    ------------')
     print('    ------------', file=file)
