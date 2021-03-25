@@ -11,6 +11,9 @@ def StartWindow(canvas):
 
     canvas.create_text(960, 540, text='Лабораторная работа', font='JetBrainsMono 50')
 
+    # Подсказка про выход в меню
+    canvas.create_text(960, 1055, text='Для выхода в меню нажмите Esc', font='JetBrainsMono 15')
+
 
 # Меню
 def Menu(canvas):
@@ -19,13 +22,13 @@ def Menu(canvas):
 
     canvas.create_text(960, 125, text='Меню', font='JetBrainsMono 70')
 
-    buttons = ['Описание', 'Анимация', 'Погрешности', 'Таблица', 'График', 'Помощь', 'Завершить']
+    buttons = ['Описание', 'Анимация', 'Погрешности', 'Таблицы', 'График', 'Помощь', 'Завершить']
     x = 325
     for button in buttons:
-        Button(canvas, 960, x, 400, 80, text=button, font='JetBrainsMono 30')
+        Button(canvas, 960, x, 400, 80, text=button, font='JetBrainsMono 30', color='#E5E5E5')
         x += 100
 
-    Button(canvas, 1900, 20, 150, 50, text='Сохранения', font='JetBrainsMono 15', anchor='ne')
+    Button(canvas, 1900, 20, 150, 50, text='Сохранения', font='JetBrainsMono 15', anchor='ne', color='#E5E5E5')
 
 
 # Описание
@@ -35,6 +38,9 @@ def Description(canvas):
 
     canvas.create_text(960, 50, text='Описание', font='JetBrainsMono 40')
 
+    # Подсказка про выход в меню
+    canvas.create_text(960, 1055, text='Для выхода в меню нажмите Esc', font='JetBrainsMono 15')
+
 
 # Анимация
 def Animation(canvas):
@@ -42,6 +48,9 @@ def Animation(canvas):
     SetPage(3)
 
     canvas.create_text(960, 50, text='Анимация', font='JetBrainsMono 40')
+
+    # Подсказка про выход в меню
+    canvas.create_text(960, 1055, text='Для выхода в меню нажмите Esc', font='JetBrainsMono 15')
 
 
 # Погрешности
@@ -51,6 +60,55 @@ def Errors(canvas):
 
     canvas.create_text(960, 50, text='Погрешности', font='JetBrainsMono 40')
 
+    # Подсказка про выход в меню
+    canvas.create_text(960, 1055, text='Для выхода в меню нажмите Esc', font='JetBrainsMono 15')
+
+
+def Table_1(canvas, tablica):
+    canvas.delete('all')
+    SetPage(11)
+    TableMemory = GetMemoryField('table-1')
+
+    canvas.create_text(960, 50, text='Таблица', font='JetBrainsMono 40')
+    # Кнопки переключения таблиц
+    Button(canvas, 960, 130, 60, 50, text='1', font='JetBrainsMono 25', anchor='e', color='#E5E5E5')
+    Button(canvas, 960, 130, 60, 50, text='2', font='JetBrainsMono 25', anchor='w', color='#E5E5E5')
+
+    # Отрисовка таблицы
+    Button(canvas, 210, 300, 1600, 300, anchor='nw')
+    # Надписи над таблицей
+    Button(canvas, 960+250, 350, 1000, 100, text='Дальность полета (см)', font='JetBrainsMono 25', anchor='e')
+    Button(canvas, 960+850, 350, 600, 100, text='(Расстояния в см, скорости в см/с)', font='JetBrainsMono 25', anchor='e')
+    for s in range(1, 11):
+        Button(canvas, 960 - (850-s*100), 400, 100, 100, text='S', font='JetBrainsMono 25', anchor='nw')
+        canvas.create_text(960-(785-s*100), 465, text=s, font='JetBrainsMono 12')
+    Button(canvas, 960 + 850, 400, 150, 100, text='Δϑ  ', font='JetBrainsMono 25', anchor='ne')
+    canvas.create_text(1750, 462, text='0', font='JetBrainsMono 12')
+    Button(canvas, 960 + 700, 400, 150, 100, text='ϑ     ', font='JetBrainsMono 25', anchor='ne')
+    canvas.create_text(1593, 462, text='0 эксп', font='JetBrainsMono 12')
+    Button(canvas, 960 + 550, 400, 150, 100, text='ΔS  ', font='JetBrainsMono 25', anchor='ne')
+    canvas.create_text(1454, 462, text='ср', font='JetBrainsMono 12')
+    Button(canvas, 960 + 400, 400, 150, 100, text='S  ', font='JetBrainsMono 25', anchor='ne')
+    canvas.create_text(1293, 462, text='ср', font='JetBrainsMono 12')
+    for x in range(960-650, 960+251, 100):
+        canvas.create_line(x, 500, x, 600)
+    for x in range(960+400, 960+850, 150):
+        canvas.create_line(x, 500, x, 600)
+
+    # Отрисовка значенй таблицы
+    for y in range(tablica.height):
+        for x in range(tablica.width):
+            canvas.create_text(960-745+100*x, 550+100*y, text=TableMemory[y][x], font='JetBrainsMono 25', anchor='w')
+    for y in range(tablica.height):
+        for x in range(4):
+            canvas.create_text(960+260+150*x, 550+100*y, text=TableMemory[y][x+10], font='JetBrainsMono 25', anchor='w')
+
+    # Курсор
+    tablica.createcursor(canvas)
+
+    # Подсказка про выход в меню
+    canvas.create_text(960, 1055, text='Для выхода в меню нажмите Esc', font='JetBrainsMono 15')
+
 
 # Таблица
 def Table(canvas, tablica):
@@ -59,17 +117,9 @@ def Table(canvas, tablica):
     TableMemory = GetMemoryField('table')
 
     canvas.create_text(960, 50, text='Таблица', font='JetBrainsMono 40')
-
-    # Отрисовка значенй таблицы
-    for y in range(5):
-        for x in range(10):
-            canvas.create_text(960-745+100*x, 550+100*y, text=TableMemory[y][x], font='JetBrainsMono 25', anchor='w')
-    for y in range(5):
-        for x in range(4):
-            canvas.create_text(960+260+150*x, 550+100*y, text=TableMemory[y][x+10], font='JetBrainsMono 25', anchor='w')
-
-    # Курсор
-    tablica.createcursor(canvas)
+    # Кнопки переключения таблиц
+    Button(canvas, 960, 130, 60, 50, text='1', font='JetBrainsMono 25', anchor='e', color='#E5E5E5')
+    Button(canvas, 960, 130, 60, 50, text='2', font='JetBrainsMono 25', anchor='w', color='#E5E5E5')
 
     # Отрисовка таблицы
     Button(canvas, 960, 650, 1700, 700)
@@ -98,8 +148,22 @@ def Table(canvas, tablica):
     Button(canvas, 960-850, 300, 100, 200, text='α', font='JetBrainsMono 25', anchor='nw')
     y = 500
     for a in range(15, 76, 15):
-        Button(canvas, 960 - 850, y, 100, 100, text=f'{a}⁰', font='JetBrainsMono 25', anchor='nw')
+        Button(canvas, 960-850, y, 100, 100, text=f'{a}⁰', font='JetBrainsMono 25', anchor='nw')
         y += 100
+
+    # Отрисовка значенй таблицы
+    for y in range(tablica.height):
+        for x in range(tablica.width):
+            canvas.create_text(960-745+100*x, 550+100*y, text=TableMemory[y][x], font='JetBrainsMono 25', anchor='w')
+    for y in range(tablica.height):
+        for x in range(4):
+            canvas.create_text(960+260+150*x, 550+100*y, text=TableMemory[y][x+10], font='JetBrainsMono 25', anchor='w')
+
+    # Курсор
+    tablica.createcursor(canvas)
+
+    # Подсказка про выход в меню
+    canvas.create_text(960, 1055, text='Для выхода в меню нажмите Esc', font='JetBrainsMono 15')
 
 
 # График
@@ -109,6 +173,9 @@ def Graph(canvas):
 
     canvas.create_text(960, 50, text='График', font='JetBrainsMono 40')
 
+    # Подсказка про выход в меню
+    canvas.create_text(960, 1055, text='Для выхода в меню нажмите Esc', font='JetBrainsMono 15')
+
 
 # Помощь
 def Help(canvas):
@@ -116,6 +183,9 @@ def Help(canvas):
     SetPage(7)
 
     canvas.create_text(960, 50, text='Помощь', font='JetBrainsMono 40')
+
+    # Подсказка про выход в меню
+    canvas.create_text(960, 1055, text='Для выхода в меню нажмите Esc', font='JetBrainsMono 15')
 
 
 # Подтверждение закрытия
@@ -125,8 +195,8 @@ def Exit(canvas):
 
     Button(canvas, 960, 540, 600, 400)
     canvas.create_text(960, 440, text='Вы уверены?', font='JetBrainsMono 30')
-    Button(canvas, 810, 640, 200, 75, text='Да', font='JetBrainsMono 20')
-    Button(canvas, 1110, 640, 200, 75, text='Нет', font='JetBrainsMono 20')
+    Button(canvas, 810, 640, 200, 75, text='Да', font='JetBrainsMono 20', color='#E5E5E5')
+    Button(canvas, 1110, 640, 200, 75, text='Нет', font='JetBrainsMono 20', color='#E5E5E5')
 
 
 # Сохранения
@@ -136,14 +206,17 @@ def Saves(canvas):
     SetMemoryField('newsavename', '')
 
     canvas.create_text(960, 50, text='Сохранения', font='JetBrainsMono 40')
-    Button(canvas, 960, 150, 1200, 80, text='Создать новое', font='JetBrainsMono 30')
+    Button(canvas, 960, 150, 1200, 80, text='Создать новое', font='JetBrainsMono 30', color='#E5E5E5')
 
     x = 275
     for file in GetSaves():
-        Button(canvas, 710, x, 350, 80, text='перезаписать', font='JetBrainsMono 30', anchor='e')
-        Button(canvas, 960, x, 500, 80, text=file[:-5], font='JetBrainsMono 30')
-        Button(canvas, 1210, x, 350, 80, text='удалить', font='JetBrainsMono 30', anchor='w')
+        Button(canvas, 710, x, 350, 80, text='перезаписать', font='JetBrainsMono 30', anchor='e', color='#E5E5E5')
+        Button(canvas, 960, x, 500, 80, text=file[:-5], font='JetBrainsMono 30', color='#E5E5E5')
+        Button(canvas, 1210, x, 350, 80, text='удалить', font='JetBrainsMono 30', anchor='w', color='#E5E5E5')
         x += 100
+
+    # Подсказка про выход в меню
+    canvas.create_text(960, 1055, text='Для выхода в меню нажмите Esc', font='JetBrainsMono 15')
 
 
 # Создать новое сохранение
@@ -155,4 +228,7 @@ def CreateSave(canvas):
 
     canvas.create_text(960, 300, text='Название:', font='JetBrainsMono 40')
     Button(canvas, 960, 400, 500, 80, text=GetMemoryField('newsavename'), font='JetBrainsMono 30')
-    Button(canvas, 960, 625, 300, 80, text='Сохранить', font='JetBrainsMono 30')
+    Button(canvas, 960, 625, 300, 80, text='Сохранить', font='JetBrainsMono 30', color='#E5E5E5')
+
+    # Подсказка про выход в меню
+    canvas.create_text(960, 1055, text='Для выхода в меню нажмите Esc', font='JetBrainsMono 15')

@@ -18,7 +18,7 @@ def GetSaves():
 def LoadSave(file):
     with open(f'Saves/{file}', 'r') as read_file:
         SetMemory(json.load(read_file))
-    PrintDictionary(GetMemory(), indent=4, name='LoadSave')
+    PrintDictionary(GetMemory(), indent=6, name='LoadSave')
 
 
 # Создает сохранение

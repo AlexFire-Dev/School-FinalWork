@@ -4,7 +4,7 @@ from tkinter.font import Font
 
 class Button:
 
-    def __init__(self, canvas, pos_x, pos_y, width, height, text=None, font=None, anchor='c'):
+    def __init__(self, canvas, pos_x, pos_y, width, height, anchor='c', **kwargs):
 
         if anchor == 'w':
             self.x = pos_x + width / 2
@@ -36,14 +36,16 @@ class Button:
 
         self.canvas = canvas
 
-        self.text = text
-        self.font = font
+        self.text = kwargs.get('text', None)
+        self.font = kwargs.get('font', None)
+        self.color = kwargs.get('color', 'white')
+        self.fontcolor = kwargs.get('fontcolor', 'black')
 
         self.width = width
         self.height = height
 
-        canvas.create_rectangle(self.x-width/2, self.y-height/2, self.x+width/2, self.y+height/2)
-        canvas.create_text(self.x, self.y, text=self.text, font=self.font)
+        canvas.create_rectangle(self.x-width/2, self.y-height/2, self.x+width/2, self.y+height/2, fill=self.color)
+        canvas.create_text(self.x, self.y, text=self.text, font=self.font, fill=self.fontcolor)
 
 
 class ButtonClick:
@@ -86,28 +88,35 @@ class ButtonClick:
 
     def check(self):
 
-        if GetPage() == self.page:
-            if self.event.x-self.width/2 < self.x < self.event.x+self.width/2 and self.event.y-self.height/2 < self.y < self.event.y+self.height/2:
-                return True
+        if self.page:
+            if GetPage() == self.page:
+                if self.event.x-self.width/2 < self.x < self.event.x+self.width/2 and self.event.y-self.height/2 < self.y < self.event.y+self.height/2:
+                    return True
+            else:
+                return False
         else:
-            return False
+            if self.event.x - self.width / 2 < self.x < self.event.x + self.width / 2 and self.event.y - self.height / 2 < self.y < self.event.y + self.height / 2:
+                return True
+            else:
+                return False
 
 
 class Tablica:
 
-    def __init__(self, width, height):
+    def __init__(self, width, height, memory='table'):
         self.width = width
         self.height = height
+        self.memory = memory
 
         self.x = 0
         self.y = 0
 
     def addsym(self, symbol, canvas):
-        value = GetMemoryField('table')
+        value = GetMemoryField(self.memory)
         value[self.y][self.x] += symbol
         canvas.create_rectangle(960-750+100*self.x, 500+100*self.y, 960-650+100*self.x, 600+100*self.y, fill='white')
-        SetMemoryField('table', value=value)
-        canvas.create_text(960-745+100*self.x, 550+100*self.y, text=GetMemoryField('table')[self.y][self.x], font='JetBrainsMono 25', anchor='w')
+        SetMemoryField(self.memory, value=value)
+        canvas.create_text(960-745+100*self.x, 550+100*self.y, text=GetMemoryField(self.memory)[self.y][self.x], font='JetBrainsMono 25', anchor='w')
         self.Middle(canvas)
 
     def createcursor(self, canvas):
@@ -115,7 +124,7 @@ class Tablica:
             canvas.delete(self.cursor)
         except:
             pass
-        text = GetMemoryField('table')[self.y][self.x]
+        text = GetMemoryField(self.memory)[self.y][self.x]
         size = Font(font='JetBrainsMono 25').measure(text=text)
         self.cursor = canvas.create_line(960-743+100*self.x+size, 650-100+100*self.y-22, 960-743+100*self.x+size, 650-100+100*self.y+22)
 
@@ -146,19 +155,19 @@ class Tablica:
                 self.y = self.height-1
 
         elif keysym == "BackSpace":
-            value = GetMemoryField('table')
+            value = GetMemoryField(self.memory)
             value[self.y][self.x] = value[self.y][self.x][:-1]
-            SetMemoryField('table', value=value)
+            SetMemoryField(self.memory, value=value)
             canvas.create_rectangle(960-750+100*self.x, 500+100*self.y, 960-650+100*self.x, 600+100*self.y, fill='white')
-            canvas.create_text(960-745+100*self.x, 550+100*self.y, text=GetMemoryField('table')[self.y][self.x], font='JetBrainsMono 25', anchor='w')
+            canvas.create_text(960-745+100*self.x, 550+100*self.y, text=GetMemoryField(self.memory)[self.y][self.x], font='JetBrainsMono 25', anchor='w')
             self.Middle(canvas)
 
     def Middle(self, canvas):
-        Memory = GetMemoryField('table')
-        for y in range(5):
+        Memory = GetMemoryField(self.memory)
+        for y in range(self.height):
             Counter = 0
             Number = 0
-            for x in range(10):
+            for x in range(self.width):
                 if not (Memory[y][x] == '' or Memory[y][x] == '.'):
                     Counter += float(Memory[y][x])
                     Number += 1
@@ -169,4 +178,4 @@ class Tablica:
             else:
                 Memory[y][10] = ''
             canvas.create_text(960+260, 550+100*y, text=Memory[y][10], font='JetBrainsMono 25', anchor='w')
-        SetMemoryField('table', Memory)
+        SetMemoryField(self.memory, Memory)

@@ -1,14 +1,19 @@
 from tkinter import *
 
 from Apps.funcs.handlers import *
-from Apps.funcs.static import StartWindow
+from Apps.funcs.static import StartWindow, Exit
 from Apps.contrib.contrib import *
+
+
+def on_close():
+    Exit(canvas)
 
 
 root = Tk()
 root.iconbitmap('Assets/Ico/main.ico')
 root.title('Лабораторная работа!')
 root.geometry('1920x1080')
+root.protocol('WM_DELETE_WINDOW', on_close)
 
 canvas = Canvas(root, width=3840, height=2160, bg='white')
 canvas.pack()
@@ -25,7 +30,7 @@ def MouseHandler(event):
         'canvas': canvas,
         'root': root,
     }
-    Mouse(context)
+    PerfCheck(func=Mouse, name='MouseButton', args=[context])
 
 
 # Передаем параметры в обработчик клавиатуры

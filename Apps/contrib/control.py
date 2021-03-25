@@ -6,11 +6,7 @@ if __name__ == '__main__':
     page = 0
 
     # Память проекта
-    mem = {
-        'table': [],
-        'error': [],
-        'newsavename': '',
-    }
+    mem = {}
 
 
 # Работа со страницей
@@ -23,15 +19,25 @@ def GetPage():
     return page
 
 
+def CheckPage(integer: int):
+    if GetPage() == integer:
+        return True
+    else:
+        return False
+
+
 # Работа с памятью
 def SetDefaultMemory():
     table = [''] * 5
     for i in range(0, len(table)):
-        table[i] = [''] * 15
+        table[i] = [''] * 14
+    table_1 = ['']
+    table_1[0] = [''] * 14
     Memory = {
         'newsavename': '',
         'error': [],
         'table': table,
+        'table-1': table_1,
     }
 
     SetMemory(Memory)

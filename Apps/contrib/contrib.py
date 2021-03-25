@@ -1,7 +1,7 @@
 import datetime
-import json
 
 
+# Стартовая надпись в консоль
 def StartSession():
     file = open('logfile.txt', 'a')
     now = datetime.datetime.now()
@@ -11,6 +11,7 @@ def StartSession():
     file.close()
 
 
+# Лог в консоль
 def log(*args, **kwargs):
     file = open('logfile.txt', 'a')
     print('    log', end=': ')
@@ -27,6 +28,7 @@ def log(*args, **kwargs):
     file.close()
 
 
+# Ошибка в консоль
 def exception(*args, **kwargs):
     file = open('logfile.txt', 'a')
     print('    exception', end=': ')
@@ -43,7 +45,36 @@ def exception(*args, **kwargs):
     file.close()
 
 
-def PrintDictionary(dictionary, indent=4, name=''):
+# Счетчик производительности
+def PerfCheck(func=None, name=None, args=None, kwargs=None):
+    file = open('logfile.txt', 'a')
+    print('    ------------')
+    print('    ------------', file=file)
+    print(f'    {name} Console:\n')
+    print(f'    {name} Console:\n', file=file)
+    file.close()
+    start = datetime.datetime.now()
+    if args and kwargs:
+        func(*args, **kwargs)
+    elif args:
+        func(*args)
+    elif kwargs:
+        func(**kwargs)
+    else:
+        func()
+    end = datetime.datetime.now()
+    timeSec = end.second - start.second
+    timeMic = end.microsecond - start.microsecond
+    file = open('logfile.txt', 'a')
+    print(f'\n    PerfCheck {timeSec}:{timeMic}')
+    print(f'\n    PerfCheck {timeSec}:{timeMic}', file=file)
+    print('    ------------')
+    print('    ------------', file=file)
+    file.close()
+
+
+# Словарь в консоль
+def PrintDictionary(dictionary, indent=6, name=''):
     file = open('logfile.txt', 'a')
     print('    ------------')
     print('    ------------', file=file)
