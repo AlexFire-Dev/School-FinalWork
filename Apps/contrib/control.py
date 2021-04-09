@@ -1,3 +1,5 @@
+from Apps.contrib.contrib import log
+
 if __name__ == '__main__':
 
     # Глобальные переменные всего проекта
@@ -10,7 +12,7 @@ if __name__ == '__main__':
 
 
 # Работа со страницей
-def SetPage(num):
+def SetPage(num: int):
     global page
     page = num
 
@@ -43,11 +45,35 @@ def SetDefaultMemory():
     SetMemory(Memory)
 
 
+def SetStockMemory():
+    error = []
+    table = [
+        ['0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0'],
+        ['0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0'],
+        ['0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0'],
+        ['0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0'],
+        ['0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0'],
+    ]
+
+    table_1 = [
+        ['0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0'],
+    ]
+    Memory = {
+        'newsavename': '',
+        'error': error,
+        'table': table,
+        'table-1': table_1,
+    }
+
+    SetMemory(Memory)
+    log('MemorySet', way=['Memory'])
+
+
 def GetMemory():
     return mem
 
 
-def SetMemory(memory):
+def SetMemory(memory: dict):
     global mem
     mem = memory
 

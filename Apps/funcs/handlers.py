@@ -1,4 +1,5 @@
 from Apps.contrib.classes import ButtonClick, Tablica
+from Apps.contrib.control import SetStockMemory
 from Apps.contrib.contrib import log
 from Apps.funcs.inputs import *
 from Apps.funcs.static import *
@@ -6,7 +7,7 @@ import time
 
 
 # Обработчик нажатий мыши
-def Mouse(context):
+def Mouse(context: dict):
     global tablica
     log(context['event'].x, context['event'].y, way=['coords'])
 
@@ -30,7 +31,7 @@ def Mouse(context):
                 else:
                     MenuButton[0](MenuButton[1])
             x += 100
-        if ButtonClick(context['event'], 1900, 20, 150, 50, anchor='ne').check():
+        if ButtonClick(context['event'], 1900, 20, 1500, 50, anchor='ne').check():
             Saves(context['canvas'])
 
     # Сохранения
@@ -74,22 +75,32 @@ def Mouse(context):
 
 
 # Обработчик нажатий на клавиши
-def Keyboard(context):
+def Keyboard(context: dict):
     global tablica
 
     # Выход в меню
     if context['event'].keysym == 'Escape':
         Menu(context['canvas'])
 
+    # Задание стандартной памяти
+    if context.get('event').keysym == 'F3':
+        SetStockMemory()
+        log('Done!', way=['Memory'])
+
+        if GetPage() == 5:
+            Table(context.get('canvas'), tablica)
+        elif GetPage() == 11:
+            Table_1(context.get('canvas'), tablica)
+
     # Создать название сохранения
     if CheckPage(10):
-        if not (context['event'].char in './'):
+        if not (context.get('event').char in './'):
             if context['event'].keysym != 'Return':
                 NewSaveInput(context['event'])
                 CreateSave(context['canvas'])
         if context['event'].keysym == 'BackSpace':
             NewSaveInputDelete()
-            CreateSave(context['canvas'])
+            CreateSave(context.get('canvas'))
         if context['event'].keysym == 'Return':
             CheckSave(context['canvas'])
 
@@ -104,7 +115,7 @@ def Keyboard(context):
 
 
 # Обработчик колеса мыши
-def Wheel(context):
+def Wheel(context: dict):
 
     # Прокрутка сохранений
     if CheckPage(9):

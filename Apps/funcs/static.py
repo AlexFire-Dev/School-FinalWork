@@ -1,11 +1,11 @@
-from Apps.contrib.classes import Button
+from Apps.contrib.classes import Button, Tablica
 from Apps.contrib.fileworker import *
 from tkinter.font import Font
-from PIL import Image, ImageTk
+from tkinter import Canvas
 
 
 # Заставка
-def StartWindow(canvas):
+def StartWindow(canvas: Canvas):
     canvas.delete('all')
     SetPage(0)
 
@@ -16,7 +16,7 @@ def StartWindow(canvas):
 
 
 # Меню
-def Menu(canvas):
+def Menu(canvas: Canvas):
     canvas.delete('all')
     SetPage(1)
 
@@ -32,7 +32,7 @@ def Menu(canvas):
 
 
 # Описание
-def Description(canvas):
+def Description(canvas: Canvas):
     canvas.delete('all')
     SetPage(2)
 
@@ -43,7 +43,7 @@ def Description(canvas):
 
 
 # Анимация
-def Animation(canvas):
+def Animation(canvas: Canvas):
     canvas.delete('all')
     SetPage(3)
 
@@ -54,7 +54,7 @@ def Animation(canvas):
 
 
 # Погрешности
-def Errors(canvas):
+def Errors(canvas: Canvas):
     canvas.delete('all')
     SetPage(4)
 
@@ -64,7 +64,7 @@ def Errors(canvas):
     canvas.create_text(960, 1055, text='Для выхода в меню нажмите Esc', font='JetBrainsMono 15')
 
 
-def Table_1(canvas, tablica):
+def Table_1(canvas: Canvas, tablica: Tablica):
     canvas.delete('all')
     SetPage(11)
     TableMemory = GetMemoryField('table-1')
@@ -111,7 +111,7 @@ def Table_1(canvas, tablica):
 
 
 # Таблица
-def Table(canvas, tablica):
+def Table(canvas: Canvas, tablica: Tablica):
     canvas.delete('all')
     SetPage(5)
     TableMemory = GetMemoryField('table')
@@ -167,7 +167,7 @@ def Table(canvas, tablica):
 
 
 # График
-def Graph(canvas):
+def Graph(canvas: Canvas):
     canvas.delete('all')
     SetPage(6)
 
@@ -178,7 +178,7 @@ def Graph(canvas):
 
 
 # Помощь
-def Help(canvas):
+def Help(canvas: Canvas):
     canvas.delete('all')
     SetPage(7)
 
@@ -189,7 +189,7 @@ def Help(canvas):
 
 
 # Подтверждение закрытия
-def Exit(canvas):
+def Exit(canvas: Canvas):
     canvas.delete('all')
     SetPage(8)
 
@@ -200,7 +200,7 @@ def Exit(canvas):
 
 
 # Сохранения
-def Saves(canvas):
+def Saves(canvas: Canvas):
     canvas.delete('all')
     SetPage(9)
     SetMemoryField('newsavename', '')
@@ -220,7 +220,7 @@ def Saves(canvas):
 
 
 # Создать новое сохранение
-def CreateSave(canvas):
+def CreateSave(canvas: Canvas):
     canvas.delete('all')
     SetPage(10)
 

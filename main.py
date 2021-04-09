@@ -55,6 +55,6 @@ def MouseWheelHandler(event):
 
 root.bind('<Button-1>', MouseHandler)
 root.bind('<KeyRelease>', KeyboardHandler)
-root.bind("<MouseWheel>", MouseWheelHandler)
+root.bind('<MouseWheel>', MouseWheelHandler)
 
 root.mainloop()

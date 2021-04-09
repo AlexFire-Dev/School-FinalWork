@@ -1,7 +1,7 @@
 from Apps.contrib.control import *
-
 from Apps.contrib.fileworker import CreateNewSave
 from Apps.funcs.static import Menu
+from tkinter import Canvas, Event
 
 
 # Добавляет символ к названию сохранения
@@ -18,7 +18,7 @@ def NewSaveInputDelete():
 
 
 # Проверяет ошибки при создании сохранения
-def CheckSave(canvas):
+def CheckSave(canvas: Canvas):
     if CreateNewSave(GetMemoryField('newsavename')) == 0:
         Menu(canvas)
     elif CreateNewSave(GetMemoryField('newsavename')) == 1:
