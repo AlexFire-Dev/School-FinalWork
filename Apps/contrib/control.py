@@ -37,7 +37,8 @@ def SetDefaultMemory():
     table_1[0] = [''] * 14
     Memory = {
         'newsavename': '',
-        'error': [],
+        'h': '',
+        'error': ['3', '5'],
         'table': table,
         'table-1': table_1,
     }
@@ -46,7 +47,7 @@ def SetDefaultMemory():
 
 
 def SetStockMemory():
-    error = []
+    error = ['3', '5']
     table = [
         ['0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0'],
         ['0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0'],
@@ -60,6 +61,7 @@ def SetStockMemory():
     ]
     Memory = {
         'newsavename': '',
+        'h': '0',
         'error': error,
         'table': table,
         'table-1': table_1,
@@ -80,7 +82,8 @@ def SetMemory(memory: dict):
 
 def GetMemoryField(field):
     global mem
-    MemoryField = mem[f'{field}']
+    MemoryField = mem.get(f'{field}')
+    log(MemoryField, way=['GetMemoryField'])
     return MemoryField
 
 

@@ -1,5 +1,7 @@
 from Apps.contrib.control import *
 from tkinter.font import Font
+from tkinter import Canvas
+from math import *
 
 
 class Button:
@@ -103,10 +105,13 @@ class ButtonClick:
 
 class Tablica:
 
-    def __init__(self, width, height, memory='table'):
+    cursor: Canvas.create_line
+
+    def __init__(self, width, height, canvas, memory='table'):
         self.width = width
         self.height = height
         self.memory = memory
+        self.canvas = canvas
 
         self.x = 0
         self.y = 0
@@ -117,7 +122,7 @@ class Tablica:
         canvas.create_rectangle(960-750+100*self.x, 500+100*self.y, 960-650+100*self.x, 600+100*self.y, fill='white')
         SetMemoryField(self.memory, value=value)
         canvas.create_text(960-745+100*self.x, 550+100*self.y, text=GetMemoryField(self.memory)[self.y][self.x], font='JetBrainsMono 25', anchor='w')
-        self.Middle(canvas)
+        self.handler()
 
     def createcursor(self, canvas):
         try:
@@ -160,7 +165,7 @@ class Tablica:
             SetMemoryField(self.memory, value=value)
             canvas.create_rectangle(960-750+100*self.x, 500+100*self.y, 960-650+100*self.x, 600+100*self.y, fill='white')
             canvas.create_text(960-745+100*self.x, 550+100*self.y, text=GetMemoryField(self.memory)[self.y][self.x], font='JetBrainsMono 25', anchor='w')
-            self.Middle(canvas)
+            self.handler()
 
     def Middle(self, canvas):
         Memory = GetMemoryField(self.memory)
@@ -179,3 +184,131 @@ class Tablica:
                 Memory[y][10] = ''
             canvas.create_text(960+260, 550+100*y, text=Memory[y][10], font='JetBrainsMono 25', anchor='w')
         SetMemoryField(self.memory, Memory)
+
+    def handler(self):
+        Memory = GetMemoryField(self.memory)
+
+        def CheckLine(line: int):
+            for x in range(0, self.width):
+                if Memory[line][x] == '':
+                    return False
+            return True
+
+        if self.memory == 'table':
+            for y in range(0, self.height):
+                if CheckLine(y):
+                    self.Middle(self.canvas)
+
+                    dS = 0
+                    for x in range(self.width):
+                        dS += pow(float(Memory[y][x]) - float(Memory[y][10]), 2)
+                    dS = round((3 * sqrt(dS)) / 10, 1)
+
+                    tS = 0
+
+                    Memory[y][11] = str(dS)
+                    Memory[y][12] = f'{Memory[y][10]}±{Memory[y][11]}'
+                    Memory[y][13] = str(tS)
+            for y in range(self.height):
+                for x in range(4):
+                    self.canvas.create_rectangle(960+250+150*x, 500+100*y, 960+400+150*x, 600+100*y, fill='white')
+                    if CheckLine(y):
+                        self.canvas.create_text(960+255+150*x, 550+100*y, text=Memory[y][x + 10], font='JetBrainsMono 25', anchor='w')
+        elif self.memory == 'table-1':
+            y = 0
+
+            if CheckLine(0):
+                self.Middle(self.canvas)
+
+                dS = 0
+                for x in range(self.width):
+                    dS += pow(float(Memory[y][x]) - float(Memory[y][10]), 2)
+                dS = round((3 * sqrt(dS)) / 10, 1)
+
+                Memory[y][11] = str(dS)
+
+            for y in range(self.height):
+                for x in range(4):
+                    self.canvas.create_rectangle(960+250+150*x, 500+100*y, 960+400+150*x, 600+100*y, fill='white')
+                    if CheckLine(y):
+                        self.canvas.create_text(960+260+150*x, 550+100*y, text=Memory[y][x + 10], font='JetBrainsMono 25', anchor='w')
+
+        SetMemoryField(self.memory, Memory)
+
+
+class ErrorsTable:
+
+    cursor: Canvas.create_line
+
+    def __init__(self, height=2, memory='error'):
+        self.height = height
+        self.memory = memory
+
+        self.y = 0
+
+    def addsym(self, symbol, canvas):
+        value = GetMemoryField(self.memory)
+        value[self.y] += symbol
+        canvas.create_rectangle(960, 410+150*self.y, 1660, 560+150*self.y, fill='white')
+        SetMemoryField(self.memory, value=value)
+        canvas.create_text(980, 485+150*self.y, text=GetMemoryField(self.memory)[self.y], font='JetBrainsMono 35', anchor='w')
+
+    def createcursor(self, canvas):
+        try:
+            canvas.delete(self.cursor)
+        except:
+            pass
+        text = GetMemoryField(self.memory)[self.y]
+        size = Font(font='JetBrainsMono 35').measure(text=text)
+        self.cursor = canvas.create_line(985+size, 440+150*self.y, 985+size, 530+150*self.y)
+
+    def keyboard(self, keysym, canvas=None):
+        if keysym == "Down":
+            if self.y < self.height-1:
+                self.y += 1
+            else:
+                self.y = 0
+        elif keysym == "Up":
+            if self.y > 0:
+                self.y -= 1
+            else:
+                self.y = self.height-1
+        elif keysym == "BackSpace":
+            value = GetMemoryField(self.memory)
+            value[self.y] = value[self.y][:-1]
+            SetMemoryField(self.memory, value=value)
+            canvas.create_rectangle(960, 410+150*self.y, 1660, 560+150*self.y, fill='white')
+            canvas.create_text(980, 485+150*self.y, text=GetMemoryField(self.memory)[self.y], font='JetBrainsMono 35', anchor='w')
+
+
+class HTable:
+
+    cursor: Canvas.create_line
+
+    def __init__(self, memory='h'):
+        self.height = 1
+        self.memory = memory
+
+    def addsym(self, symbol, canvas):
+        value = GetMemoryField(self.memory)
+        value += symbol
+        Button(canvas, 960, 800, 300, 100, anchor='n')
+        SetMemoryField(self.memory, value=value)
+        canvas.create_text(820, 850, text=GetMemoryField(self.memory), font='JetBrainsMono 25', anchor='w')
+
+    def createcursor(self, canvas):
+        try:
+            canvas.delete(self.cursor)
+        except:
+            pass
+        text = GetMemoryField(self.memory)
+        size = Font(font='JetBrainsMono 25').measure(text=text)
+        self.cursor = canvas.create_line(825+size, 850-35, 825+size, 850+35)
+
+    def keyboard(self, keysym, canvas=None):
+        if keysym == "BackSpace":
+            value = GetMemoryField(self.memory)
+            value = value[:-1]
+            SetMemoryField(self.memory, value=value)
+            Button(canvas, 960, 800, 300, 100, anchor='n')
+            canvas.create_text(820, 850, text=GetMemoryField(self.memory), font='JetBrainsMono 25', anchor='w')
