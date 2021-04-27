@@ -137,9 +137,6 @@ def ChangeH(canvas: Canvas, tablica: Tablica, htable: HTable):
     TableMemory = GetMemoryField('table-1')
 
     canvas.create_text(960, 50, text='Таблица', font='JetBrainsMono 40')
-    # Кнопки переключения таблиц
-    Button(canvas, 960, 130, 60, 50, text='1', font='JetBrainsMono 25', anchor='e', color='#E5E5E5')
-    Button(canvas, 960, 130, 60, 50, text='2', font='JetBrainsMono 25', anchor='w', color='#E5E5E5')
 
     # Отрисовка таблицы
     Button(canvas, 210, 300, 1600, 300, anchor='nw')
@@ -241,6 +238,15 @@ def Table(canvas: Canvas, tablica: Tablica):
 
 # График
 def Graph(canvas: Canvas):
+
+    def CheckTable():
+        memory = GetMemoryField('table')
+        for y in range(0, 5):
+            for x in range(0, 14):
+                if memory[y][x] == '':
+                    return False
+        return True
+
     canvas.delete('all')
     SetPage(6)
 
@@ -248,6 +254,44 @@ def Graph(canvas: Canvas):
 
     # Подсказка про выход в меню
     canvas.create_text(960, 1055, text='Для выхода в меню нажмите Esc', font='JetBrainsMono 15')
+
+    Memory = GetMemoryField('table')
+    Errors = GetMemoryField('error')
+
+    canvas.create_line(150, 980, 150, 150, width=3, arrow='last')
+    canvas.create_line(149, 980, 1920-150, 980, width=3, arrow='last')
+    canvas.create_text(150, 120, text='S, см', font='JetBrainsMono 20')
+    canvas.create_text(1835, 980, text='α, ⁰', font='JetBrainsMono 20')
+
+    x = 150
+    for a in range(0, 90, 15):
+        canvas.create_oval(x-3, 980-3, x+3, 980+3, fill='black')
+        canvas.create_text(x, 995, text=f'{a}', font='JetBrainsMono 15')
+        x += 300
+
+    if CheckTable():
+        x = 450
+        for a in range(5):
+            y = (750 / float(Memory[2][13])) * float(Memory[a][13])
+            canvas.create_oval(x-3, 980-y-3, x+3, 980-y+3, fill='black')
+            canvas.create_text(120, 980-y, text=f'{Memory[a][13]}', font='JetBrainsMono 15')
+            canvas.create_oval(150-3, 980-y-3, 150+3, 980-y+3, fill='black')
+            x += 300
+        y = (750 / float(Memory[2][13])) * float(Memory[1][13])
+        x1, y1 = 750,  980-y
+        x2, y2 = 1050, 980-750
+        x3, y3 = 1350, 980-y
+
+        a = (y3-(x3*(y2-y1)+x2*y1-x1*y2)/(x2-x1)) / (x3*(x3-x1-x2)+x1*x2)
+        b = (y2-y1)/(x2-x1)-a*(x1+x2)
+        c = (x2*y1-x1*y2)/(x2-x1)+a*x1*x2
+
+        for x in range(150, 1920-150+1):
+            y = a*x**2+b*x+c
+            if y <= 980:
+                canvas.create_oval(x-1, y-1, x+1, y+1)
+    else:
+        canvas.create_text(960, 540, text='Заполните все поля таблиц!', font='JetBrainsMono 60')
 
 
 # Помощь

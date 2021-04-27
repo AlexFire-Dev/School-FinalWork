@@ -2,6 +2,7 @@ from Apps.contrib.control import *
 from tkinter.font import Font
 from tkinter import Canvas
 from math import *
+from Apps.contrib.contrib import log
 
 
 class Button:
@@ -204,16 +205,20 @@ class Tablica:
                         dS += pow(float(Memory[y][x]) - float(Memory[y][10]), 2)
                     dS = round((3 * sqrt(dS)) / 10, 1)
 
-                    tS = 0
-
                     Memory[y][11] = str(dS)
                     Memory[y][12] = f'{Memory[y][10]}±{Memory[y][11]}'
-                    Memory[y][13] = str(tS)
+
+                    if GetMemoryField('table-1')[0][12] != '':
+                        tS = ((float(GetMemoryField('table-1')[0][12]) ** 2) * sin(radians(2 * 15 * (1 + y)))) / 9.8
+
+                        Memory[y][13] = str(round(tS, 1))
+
             for y in range(self.height):
                 for x in range(4):
                     self.canvas.create_rectangle(960+250+150*x, 500+100*y, 960+400+150*x, 600+100*y, fill='white')
                     if CheckLine(y):
-                        self.canvas.create_text(960+255+150*x, 550+100*y, text=Memory[y][x + 10], font='JetBrainsMono 25', anchor='w')
+                        self.canvas.create_text(960+255+150*x, 550+100*y, text=Memory[y][x+10], font='JetBrainsMono 25', anchor='w')
+
         elif self.memory == 'table-1':
             y = 0
 
@@ -226,6 +231,14 @@ class Tablica:
                 dS = round((3 * sqrt(dS)) / 10, 1)
 
                 Memory[y][11] = str(dS)
+
+                if GetMemoryField('h') != '' and GetMemoryField('h') != '0' and Memory[y][10] != '0':
+                    V0 = float(Memory[y][10]) * sqrt(9.8 / (2 * int(GetMemoryField('h'))))
+                    Memory[y][12] = str(round(V0, 1))
+
+                    dV = float(Memory[y][11]) / float(Memory[y][10])
+                    dV += int(GetMemoryField('error')[1]) / (2 * int(GetMemoryField('h')))
+                    Memory[y][13] = str(round(dV, 1))
 
             for y in range(self.height):
                 for x in range(4):

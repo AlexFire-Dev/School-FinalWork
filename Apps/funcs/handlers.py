@@ -132,6 +132,9 @@ def Keyboard(context: dict):
         elif GetPage() == 12:
             ChangeH(context.get('canvas'), tablica, htable)
             return
+        elif GetPage() == 6:
+            Graph(context.get('canvas'))
+            return
 
     # Создать название сохранения
     if CheckPage(10):
