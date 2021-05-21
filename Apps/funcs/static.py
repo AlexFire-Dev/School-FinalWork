@@ -41,6 +41,20 @@ def Description(canvas: Canvas):
 
     canvas.create_text(960, 50, text='Исследование зависимости дальности полет от угла бросания.', font='JetBrainsMono 40')
 
+    canvas.create_text(136, 138, text='Оборудование: баллистический пистолет, штатив, измерительная лента, лист белой и копировальной бумаги,\n'
+                                      'ловушка для шарика',
+                       font='JetBrainsMono 25', anchor='nw')
+    canvas.create_text(136, 250, text='1. Укрепите баллистический пистолет в штативе таким образом, чтобы снаряд выбрасывался горизонтально\n'
+                                      'и падал на стол. Измерьте высоту выстрела h, положите на место падения шарика лист белой бумаги, а сверху копировальной\n'
+                                      '2. Произверите 10 выстрелов, измерьте расстояния до точек падения и занесите результаты в таблицу 1\n'
+                                      '3. Установите баллистический пистолет на краю стола и произведите 10 выстрелов под углом 15⁰ к горизонту\n'
+                                      'По анологии с п.2 измерьте расстояния и занесите в таблицу 2\n'
+                                      '4. Проведите еще 4 серии выстрелов под углами 30⁰, 45⁰, 60⁰, 75⁰. Результаты занесите в таблицу 2\n'
+                                      '5. Рассчитайте теоретическую дальность полета при углах бросания 15⁰, 30⁰, 45⁰, 60⁰, 75⁰. Результаты занесите в таблицу 2\n'
+                                      '6. Проанализируйте полученный результат. Можно ли считать, что результаты эксеримента подтверждают теорию движения\n'
+                                      'тела, брошенного под углом к горизонту.',
+                       font='JetBrainsMono 20', anchor='nw')
+
     # Подсказка про выход в меню
     canvas.create_text(960, 1055, text='Для выхода в меню нажмите Esc', font='JetBrainsMono 15')
 
@@ -63,15 +77,15 @@ def Vivod(canvas: Canvas):
     def parabola():
         Memory = GetMemoryField('table')
         for i in Memory:
-            if (float(i[13]) - float(i[11]) >= float(i[10])) and (float(i[13]) + float(i[11]) <= float(i[10])):
+            if not (float(i[13]) - float(i[11]) >= float(i[10])) and (float(i[13]) + float(i[11]) <= float(i[10])):
                 return False
         return True
 
     if CheckTable():
         if parabola():
-            canvas.create_text(960, 540, text='Результаты подтверждают теорию тела брошенного под углом к горизонту', font='JetBrainsMono 40')
+            canvas.create_text(960, 540, text='Результаты подтверждают теорию тела брошенного под углом к горизонту', font='JetBrainsMono 35')
         else:
-            canvas.create_text(960, 540, text='Результаты не подтверждают теорию тела брошенного под углом к горизонту', font='JetBrainsMono 40')
+            canvas.create_text(960, 540, text='Результаты не подтверждают теорию тела брошенного под углом к горизонту', font='JetBrainsMono 35')
     else:
         canvas.create_text(960, 540, text='Заполните все поля таблиц!', font='JetBrainsMono 60')
 
@@ -359,7 +373,7 @@ def Graph(canvas: Canvas):
     if CheckTable():
         def parabola():
             for i in Memory:
-                if (float(i[13]) - float(i[11]) > float(i[10])) and (float(i[13]) + float(i[11]) < float(i[10])):
+                if not (float(i[13]) - float(i[11]) > float(i[10])) and (float(i[13]) + float(i[11]) < float(i[10])):
                     return False
             return True
 
@@ -385,7 +399,7 @@ def Graph(canvas: Canvas):
                 canvas.create_oval(x - 1, y - 1, x + 1, y + 1)
 
         if not parabola():
-            canvas.create_text(960, 540, text='Значения не попадают на 1 кривую!', font='JetBrainsMono 40')
+            canvas.create_text(960, 700, text='Значения не попадают на 1 кривую!', font='JetBrainsMono 40')
     else:
         canvas.create_text(960, 540, text='Заполните все поля таблиц!', font='JetBrainsMono 60')
 
