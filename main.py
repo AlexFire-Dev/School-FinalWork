@@ -47,7 +47,7 @@ def MouseHandler(event):
         'canvas': canvas,
         'root': root,
     }
-    PerfCheck(func=Mouse, name='MouseButton', args=[context])
+    Mouse(context)
 
 
 # Передаем параметры в обработчик клавиатуры
@@ -73,6 +73,6 @@ def MouseWheelHandler(event):
 root.bind('<Button-1>', MouseHandler)
 root.bind('<KeyRelease>', KeyboardHandler)
 root.bind('<MouseWheel>', MouseWheelHandler)
-root.bind("<F11>", resize)
+root.bind('<F11>', resize)
 
 root.mainloop()

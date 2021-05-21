@@ -19,10 +19,11 @@ def Mouse(context: dict):
             [Errors, context['canvas']],
             [Table, context['canvas']],
             [Graph, context['canvas']],
+            [Vivod, context['canvas']],
             [Help, context['canvas']],
             [Exit, context['canvas']],
         ]
-        x = 325
+        x = 275
         for MenuButton in MenuButtons:
             if ButtonClick(context['event'], 960, x, 400, 80).check():
                 if MenuButton[0] == Table:
@@ -100,9 +101,14 @@ def Mouse(context: dict):
     # Изменить h
     if CheckPage(12):
         if ButtonClick(context.get('event'), 960+150, 800, 300, 100, anchor='nw').check():
-            log('Ok!', way=['ClickPass_12'])
             tablica = Tablica(width=10, height=1, memory='table-1', canvas=context.get('canvas'))
             Table_1(context.get('canvas'), tablica=tablica)
+            return
+
+    # Анимация
+    if CheckPage(3):
+        if ButtonClick(context.get('event'), 1780, 845, 100, 50).check():
+            Anim(context.get('canvas'))
             return
 
 
@@ -134,6 +140,9 @@ def Keyboard(context: dict):
             return
         elif GetPage() == 6:
             Graph(context.get('canvas'))
+            return
+        elif GetPage() == 13:
+            Vivod(context.get('canvas'))
             return
 
     # Создать название сохранения
