@@ -10,6 +10,7 @@ def StartWindow(canvas: Canvas):
     SetPage(0)
 
     canvas.create_text(960, 540, text='Лабораторная работа', font='JetBrainsMono 50')
+    canvas.create_text(960, 700, text='Выполнил Шварев Алексей Егорович', font='JetBrainsMono 30')
 
     # Подсказка про выход в меню
     canvas.create_text(960, 1055, text='Для выхода в меню нажмите Esc', font='JetBrainsMono 15')
